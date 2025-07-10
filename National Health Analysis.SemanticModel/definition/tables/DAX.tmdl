@@ -1,0 +1,331 @@
+table DAX
+	lineageTag: ab35c151-932f-4c3c-ba1d-a28f77545803
+
+	measure 'Admitted Patients' = DISTINCTCOUNT(HealthData[Patient ID])
+		formatString: #,0
+		displayFolder: KPI
+		lineageTag: 087b1756-bbf2-48dd-ac7c-d46fb5cf7d8d
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Avg LOS' = AVERAGE(HealthData[Length of Stay])
+		displayFolder: KPI
+		lineageTag: 8dd892fa-a181-4827-9204-86adc4a04c16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Billing Amt' = AVERAGE(HealthData[Billing Amount])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: KPI
+		lineageTag: f1fc94ca-66d0-4a95-98e9-e1267fc4a210
+
+	measure Doctors = DISTINCTCOUNT(HealthData[Doctor])
+		formatString: #,0
+		displayFolder: KPI
+		lineageTag: 24a89c66-76c9-4dea-85b2-355fb5190096
+
+	measure Rooms = DISTINCTCOUNT(HealthData[Room Number])
+		formatString: 0
+		displayFolder: KPI
+		lineageTag: 90ec4bdf-6018-41df-8f27-f540c506b7a1
+
+	measure 'Average age' = AVERAGE(HealthData[Age])
+		displayFolder: KPI
+		lineageTag: 2b2e8365-273b-44be-b8f3-bda422038f02
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Adm YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = 
+			    IF(NOT ISBLANK(SelectedYear),
+			        SelectedYear - 1,
+			        BLANK()
+			    )
+			VAR PrevYearValue = 
+			    IF(NOT ISBLANK(PrevYear),
+			        CALCULATE([Admitted Patients], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Admitted Patients]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(YoYChange > 0, 
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: da58f891-e2dc-4500-9a6c-cbbcfa3aa094
+
+	measure 'Doc YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = IF(NOT ISBLANK(SelectedYear), SelectedYear - 1, BLANK())
+			VAR PrevYearValue = 
+			    IF(
+			        NOT ISBLANK(PrevYear),
+			        CALCULATE([Doctors], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Doctors]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No Selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(
+			            YoYChange > 0,
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: c13a1bbe-288b-4cce-a050-77cfd2c14bf3
+
+	measure 'Room YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = IF(NOT ISBLANK(SelectedYear), SelectedYear - 1, BLANK())
+			VAR PrevYearValue = 
+			    IF(
+			        NOT ISBLANK(PrevYear),
+			        CALCULATE([Rooms], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Rooms]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No Selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(
+			            YoYChange > 0,
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: 90b3a2a1-8978-440d-8bf9-1394e8b5f0bf
+
+	measure 'Bill YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = IF(NOT ISBLANK(SelectedYear), SelectedYear - 1, BLANK())
+			VAR PrevYearValue = 
+			    IF(
+			        NOT ISBLANK(PrevYear),
+			        CALCULATE([Avg Billing Amt], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Avg Billing Amt]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No Selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(
+			            YoYChange > 0,
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: b5fe8d63-f632-4b92-925f-2b33144f2044
+
+	measure 'LOS YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = IF(NOT ISBLANK(SelectedYear), SelectedYear - 1, BLANK())
+			VAR PrevYearValue = 
+			    IF(
+			        NOT ISBLANK(PrevYear),
+			        CALCULATE([Avg LOS], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Avg LOS]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No Selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(
+			            YoYChange > 0,
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: 04d117f3-7146-42c1-a39c-8552a6cd1742
+
+	measure 'Age YoY' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE('Calendar'[Year])
+			VAR PrevYear = IF(NOT ISBLANK(SelectedYear), SelectedYear - 1, BLANK())
+			VAR PrevYearValue = 
+			    IF(
+			        NOT ISBLANK(PrevYear),
+			        CALCULATE([Average age], YEAR('Calendar'[Date]) = PrevYear),
+			        BLANK()
+			    )
+			VAR CurrentValue = [Average age]
+			VAR YoYChange = 
+			    IF(
+			        AND(NOT ISBLANK(CurrentValue), NOT ISBLANK(PrevYearValue)),
+			        DIVIDE(CurrentValue - PrevYearValue, PrevYearValue),
+			        BLANK()
+			    )
+			RETURN
+			IF(
+			    ISBLANK(SelectedYear),
+			    "No Selection",
+			    IF(
+			        NOT ISBLANK(YoYChange),
+			        IF(
+			            YoYChange > 0,
+			            "↑ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear,
+			            "↓ " & FORMAT(YoYChange, "#.0%") & " Vs " & PrevYear
+			        ),
+			        "No Data"
+			    )
+			)
+			
+			```
+		displayFolder: YoY
+		lineageTag: 5d82110a-ff51-4094-9058-22415d661106
+
+	measure 'Normal Results' = ```
+			CALCULATE([Admitted Patients], HealthData[Test Results] = "Normal") +0
+			
+			```
+		formatString: #,0
+		displayFolder: Results
+		lineageTag: 1013aefb-b569-46ae-a4a5-8fcf73e9b278
+
+	measure 'Normal Result %' = DIVIDE([Normal Results],[Admitted Patients],0) +0
+		formatString: 0%;-0%;0%
+		displayFolder: Results
+		lineageTag: aa27227d-6fb5-434e-b3d7-d595e0ddad81
+
+	measure 'Abnormal Results' = ```
+			CALCULATE([Admitted Patients], HealthData[Test Results] = "Abnormal") +0
+			
+			```
+		formatString: #,0
+		displayFolder: Results
+		lineageTag: bb52c48e-a12e-43c0-b2d2-fc98aa4f333b
+
+	measure 'AbnormalR %' = DIVIDE([Abnormal Results], [Admitted Patients],0)+0
+		formatString: 0%;-0%;0%
+		displayFolder: Results
+		lineageTag: d0eb48fb-028d-49b5-9e48-c473d789343c
+
+	measure 'Inconclusive Results' = CALCULATE([Admitted Patients], HealthData[Test Results] = "Inconclusive") +0
+		formatString: #,0
+		displayFolder: Results
+		lineageTag: bba5646c-6dda-4846-bd77-19143fb1f2bb
+
+	measure 'Inconclusive %' = DIVIDE([Inconclusive Results], [Admitted Patients],0)+0
+		formatString: 0%;-0%;0%
+		displayFolder: Results
+		lineageTag: 027eddac-e23a-450d-b2da-0b3dc9c595c1
+
+	measure 'Total Billing' = SUM(HealthData[Billing Amount])
+		displayFolder: KPI
+		lineageTag: cd9359db-31e6-4063-9f34-799cca5bb0ec
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Title =
+			
+			Var MedCon = SELECTEDVALUE(DimCondition[Medical Condition])
+			
+			RETURN
+			"Total Billing Accumulated by" &" "& MedCon
+		displayFolder: Title
+		lineageTag: 212e9cc1-299e-4b56-8676-4c8f27d8d41f
+
+	measure 'Line Title' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('KPI'[KPI Order]), 
+			    0, "Currently Viewing Admitted Patients Trend",
+			    1, "Currently Viewing Avg Length of Stay Trend",
+			    "Currently Viewing Avg Billing Trend"
+			)
+			
+			```
+		displayFolder: Title
+		lineageTag: d107e716-46d9-4f8e-a8d6-51e84e3c1781
+
+	partition DAX = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

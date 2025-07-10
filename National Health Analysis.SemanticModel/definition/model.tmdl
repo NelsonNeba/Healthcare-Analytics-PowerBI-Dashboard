@@ -1,0 +1,45 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Data Dictionary'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Fact Table'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'Dim Table'
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Data Source'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["Data Dictionary","HealthData","DAX","DimCondition","DataFolder","FilePath"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.144.1378.0 (25.06)+cba1e61f16ea36d44901f06fa446299040122394
+
+annotation PBI_ProTooling = ["DevMode","DaxQueryView_Desktop"]
+
+ref table HealthData
+ref table DateTableTemplate_56a29850-37a1-46cd-9a8d-d5768681d90d
+ref table LocalDateTable_3fbd6332-b26e-4080-bd05-3ac6985d8ff1
+ref table DAX
+ref table DimCondition
+ref table Calendar
+ref table LocalDateTable_f5bcf0da-3074-4b36-a805-4dfc1bce659f
+ref table LocalDateTable_1b53f7e8-479d-47b2-8d22-521a231fcfb6
+ref table KPI
+ref table Billing
+
+ref cultureInfo en-US
+

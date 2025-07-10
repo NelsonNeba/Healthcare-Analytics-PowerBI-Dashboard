@@ -1,0 +1,30 @@
+expression 'Data Dictionary' =
+		let
+		    Source = Excel.Workbook(File.Contents(DataFolder & FilePath), null, true),
+		    #"Data Dictionary_Sheet" = Source{[Item="Data Dictionary",Kind="Sheet"]}[Data],
+		    #"Changed Type" = Table.TransformColumnTypes(#"Data Dictionary_Sheet",{{"Column1", type text}, {"Column2", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 8df8c89c-7320-4a81-aa4b-63b2049b2211
+	queryGroup: 'Data Dictionary'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression DataFolder = "C:\Users\Nel\Desktop\Data Analytics\Portfilio Projects\Analyzed projects\HealthData Analysis\" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: ae1d5e48-370c-4416-a344-ebe013c57bd6
+	queryGroup: 'Data Source'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression FilePath = "Healthcare Analysis Dataset.xlsx" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 4e362f08-ad24-4ed2-9aba-f4f06f128e7c
+	queryGroup: 'Data Source'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

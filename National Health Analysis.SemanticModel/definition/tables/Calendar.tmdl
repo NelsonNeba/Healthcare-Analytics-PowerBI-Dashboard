@@ -1,0 +1,168 @@
+table Calendar
+	lineageTag: 93a6fe13-7adb-4df5-b47a-2207ca1f3cf3
+
+	column Date
+		formatString: Long Date
+		lineageTag: 01c23ea7-b71f-416c-8898-6dad5dc7e55a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 79dda626-9f80-4e47-a773-53a47460a3c0
+			defaultHierarchy: LocalDateTable_f5bcf0da-3074-4b36-a805-4dfc1bce659f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 36e5acc0-f93c-42b0-9065-7d4b0579f609
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		formatString: 0
+		lineageTag: 6c6f7036-6672-4a46-8c8b-b34bdb7ac906
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month No'
+		formatString: 0
+		lineageTag: 171252df-eb2e-4ad1-b14c-49aff91665a1
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month No]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Num'
+		formatString: 0
+		lineageTag: 54771f0a-0158-4112-9829-25ae3be0e222
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Week Num]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Day'
+		formatString: 0
+		lineageTag: 95260206-c966-4e19-8179-faa39f483196
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Week Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		formatString: 0
+		lineageTag: d2c32935-0693-47e4-96d9-e41e833deb01
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: 7263293e-3cb8-4003-b8e1-d878528b60f8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+		sortByColumn: 'Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		lineageTag: 546709e3-2f19-442e-beeb-ea1424818953
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Short]
+		sortByColumn: 'Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		lineageTag: de4f7350-0d01-4aea-b4ba-2e109cfd6284
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Week]
+		sortByColumn: 'Week Day'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quarter Number'
+		lineageTag: 6a70b335-1f5a-40d1-aeaa-38fac4e342dc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month'
+		lineageTag: fb9005f2-94cb-4acf-9220-0e2d017ecda8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekending
+		formatString: General Date
+		lineageTag: 8c6bee96-4cab-4d5f-bf03-7dbd7a9cdd56
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekending]
+
+		variation Variation
+			isDefault
+			relationship: d9346d45-b31a-4ae4-8911-12fb008af6a0
+			defaultHierarchy: LocalDateTable_1b53f7e8-479d-47b2-8d22-521a231fcfb6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Type'
+		lineageTag: 0f1506ee-ed42-4b32-9c7c-1f145a58a232
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source = ```
+				
+				var mindate = MIN(HealthData[Date of Admission])
+				var maxdate = MAX(HealthData[Date of Admission])
+				VAR BaseCalendar =
+				    CALENDAR(mindate,maxdate)
+				RETURN
+				ADDCOLUMNS(
+				    BaseCalendar,
+				    "Year", YEAR([Date]),
+				    "Quarter", QUARTER([Date]),
+				    "Month No", MONTH([Date]),
+				    "Week Num", WEEKNUM([Date]),
+				    "Week Day", WEEKDAY([Date]),
+				    "Day", DAY([Date]),
+				    "Month Name", FORMAT([Date], "MMMM"),
+				    "Month Short", FORMAT([Date], "MMM"),
+				    "Week", FORMAT([Date], "dddd"),
+				    "Quarter Number", "Q" & QUARTER([Date]),
+				    "Year Month", FORMAT([Date], "YYYY MMMM"),
+				    "Day Type", IF(WEEKDAY([Date], 2) > 5, "Weekend", "Weekday"),
+				    "Weekending", [Date] + (7 - WEEKDAY([Date]))
+				)
+				
+				```
+
+	annotation PBI_Id = 437565cd0dcd4a0a95f873ab032a3b4e
+

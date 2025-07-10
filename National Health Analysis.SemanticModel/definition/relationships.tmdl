@@ -1,0 +1,23 @@
+relationship ecc53ca9-ad89-456a-8157-c5f461820071
+	joinOnDateBehavior: datePartOnly
+	fromColumn: HealthData.'Discharge Date'
+	toColumn: LocalDateTable_3fbd6332-b26e-4080-bd05-3ac6985d8ff1.Date
+
+relationship AutoDetected_3fe6f3c2-dcfe-4540-9c63-a9a821d504c8
+	fromColumn: HealthData.'Condition ID'
+	toColumn: DimCondition.'Condition ID'
+
+relationship 79dda626-9f80-4e47-a773-53a47460a3c0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_f5bcf0da-3074-4b36-a805-4dfc1bce659f.Date
+
+relationship 2fd6a5a9-5842-7a76-6e16-fabfb72a8435
+	fromColumn: HealthData.'Date of Admission'
+	toColumn: Calendar.Date
+
+relationship d9346d45-b31a-4ae4-8911-12fb008af6a0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Weekending
+	toColumn: LocalDateTable_1b53f7e8-479d-47b2-8d22-521a231fcfb6.Date
+

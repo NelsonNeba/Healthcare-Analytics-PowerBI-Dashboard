@@ -1,0 +1,49 @@
+table KPI
+	lineageTag: 672b0b82-0c8b-4028-9429-da782b2acb0f
+
+	column KPI
+		lineageTag: 3204f0d3-8069-4d9d-b289-6462c6d65787
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'KPI Order'
+
+		relatedColumnDetails
+			groupByColumn: 'KPI Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI Fields'
+		isHidden
+		lineageTag: c938bcc6-8cb2-4831-a605-a196ccd892b1
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'KPI Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'KPI Order'
+		isHidden
+		formatString: 0
+		lineageTag: ac338a92-d325-4636-80c3-36bba9177f82
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPI = calculated
+		mode: import
+		source =
+				{
+				    ("Admitted Patients", NAMEOF('DAX'[Admitted Patients]), 0),
+				    ("Avg LOS", NAMEOF('DAX'[Avg LOS]), 1),
+				    ("Avg Billing Amt", NAMEOF('DAX'[Avg Billing Amt]), 2)
+				}
+
+	annotation PBI_Id = 2cb2fabaea3a4afa8047e754a6b38a01
+

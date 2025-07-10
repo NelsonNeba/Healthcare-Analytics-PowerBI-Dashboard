@@ -1,0 +1,99 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1044.1858407079649,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1225.0619469026549,
+            "y": 550.43805309734512
+          },
+          "nodeIndex": "HealthData",
+          "nodeLineageTag": "a0149ef8-aa2e-400f-b600-f5ff0da7de7b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 385.97345132743368,
+            "y": 693.73008849557527
+          },
+          "nodeIndex": "DAX",
+          "nodeLineageTag": "ab35c151-932f-4c3c-ba1d-a28f77545803",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 857.8584070796461,
+            "y": 796.86283185840693
+          },
+          "nodeIndex": "DimCondition",
+          "nodeLineageTag": "e3b374f4-e0ae-462c-b64b-b6fac880ec5a",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1608.5486725663718,
+            "y": 764.50884955752213
+          },
+          "nodeIndex": "Calendar",
+          "nodeLineageTag": "93a6fe13-7adb-4df5-b47a-2207ca1f3cf3",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1506.5752212389382,
+            "y": 404.37610619469029
+          },
+          "nodeIndex": "KPI",
+          "nodeLineageTag": "672b0b82-0c8b-4028-9429-da782b2acb0f",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1506.5752212389382,
+            "y": 338.85840707964604
+          },
+          "nodeIndex": "Billing",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 54.854368932038831,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}
