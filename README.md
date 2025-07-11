@@ -4,7 +4,8 @@
 
 This project showcases the development of a comprehensive and interactive Power BI dashboard for healthcare data analysis. Leveraging a detailed dataset of patient records, the dashboard provides critical insights into patient demographics, medical conditions, financial performance, and operational efficiency within a healthcare setting. The aim is to enable healthcare stakeholders (e.g., hospital administrators, financial officers, medical directors) to make data-driven decisions.
 ![Dashboard](Assets/dashboard.png)
-[Live Dashboard](https://app.powerbi.com/view?r=eyJrIjoiNTk5OGNlZjktOTliYi00MjY2LThhYzUtYTgyYTBiNzA3OTk1IiwidCI6ImUxMjJlZTIwLTQ5MWItNDM3ZS05NmMwLTEzZGM3OTE3ODk2OSIsImMiOjN9 )
+
+![Live Dashboard](https://app.powerbi.com/view?r=eyJrIjoiNTk5OGNlZjktOTliYi00MjY2LThhYzUtYTgyYTBiNzA3OTk1IiwidCI6ImUxMjJlZTIwLTQ5MWItNDM3ZS05NmMwLTEzZGM3OTE3ODk2OSIsImMiOjN9 )
 ## Table of Contents
 
 1.  [Project Overview](#project-overview)
