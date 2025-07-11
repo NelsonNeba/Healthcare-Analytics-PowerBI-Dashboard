@@ -58,7 +58,7 @@ This project demonstrates a robust understanding of Power BI's capabilities, cov
     * Creating a `MedicalCondition Dimension` table (a dimension table containing unique medical conditions and a `MedicalConditionID`).
     * Refactoring the main data into a `Healthdata` Fact table, where the `Medical Condition` text was replaced by `MedicalConditionID` as a foreign key.
 * **Relationship Management:** Established clear one-to-many relationships between the Fact and Dimension tables (e.g., `Healthdata` to `MedicalCondition Dimension` via `MedicalConditionID`, and `Healthdata` to `Date Table` via `Date of Admission`).
-![Data Model](Assets/model.png)
+  ![Data Model](Assets/model.png)
 ### Key Performance Indicators (KPIs) & Advanced DAX Measures
 
 Developed a comprehensive set of DAX measures to quantify performance, track trends, and provide granular insights. These measures are the backbone of the dashboard's analytical power:
